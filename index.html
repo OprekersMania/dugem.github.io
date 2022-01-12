@@ -1,24 +1,237 @@
+<!--
+	"image2cpp"
+	Original utility by:
+	https://jaspervanloenen.com
+
+	This is the 2nd revision of the modified version by:
+	https://wiredolphin.net
+-->
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../../../../favicon.ico">
+	<meta charset="UTF-8">
+	<title>image2cpp</title>
 
-    <title>Narrow Jumbotron Template for Bootstrap</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
 
-    <!-- Bootstrap core CSS -->
-    <link href="../../css/editor.css" rel="stylesheet">
+		body{
+			font-family: arial;
+		}
 
-    <!-- Custom styles for this template -->
-    <link href="narrow-jumbotron.css" rel="stylesheet">
-  </head>
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+			margin: auto;
+			width: 900px;
+		}
 
-  <body><h1 style="float: none; background-color: rgb(0, 255, 110); color: rgb(30, 0, 255); font-weight: 800; font-family: Impact, Charcoal, sans-serif; text-align: center; line-height: 90px; text-decoration-line: underline overline; text-decoration-color: rgb(255, 0, 0); text-decoration-style: double; height: auto;">Image2cpp Generator</h1>
+		.section {
+			margin: 10px 0;
+		}
+
+		.bottom-divider {
+			border-bottom: 2px solid #000000;
+			padding-bottom: 20px;
+		}
+
+		.sub-section {
+			clear: both;
+			margin-bottom: 1px;
+		}
+
+		.section,
+		.sub-section {
+			width: 100%;
+		}
+
+		.column {
+			float: left;
+		}
+
+		.column-center {
+			min-width: 160px;
+			text-align: center;
+		}
+
+		.column-right {
+			float: right;
+		}
+
+		.sub-section-title {
+			margin: 0 0 10px;
+		}
+
+		p {
+			margin: 20px 0;
+		}
+
+		.table {
+			display: table;
+			margin: 10px 0 0;
+			width: 100%;
+		}
+
+		.table-row {
+			display: table-row;
+			width: 100%;
+		}
+
+		.table-cell {
+			display: table-cell;
+			padding: 5px 0;
+		}
+
+		.table-cell:first-child {
+			width: 25%;
+		}
+
+		.table-cell:last-child {
+			width: 70%;
+		}
+
+		.table-cell:first-child label {
+			font-weight: bold;
+		}
+
+		.table-cell:last-child label {
+			margin-right: 10px;
+		}
+
+		.nested-table {
+			margin: 0;
+		}
+
+		.nested-table .table-cell {
+			color: #666;
+			font-size: .9em;
+			width: 200px;
+		}
+
+		#format-caption-container div {
+			color: #505050;
+			display: none;
+			font-size: .9em;
+			line-height: 1.4em;
+			padding: 10px 0 15px;
+			width: 100%;
+		}
+
+		.byte-input {
+			min-height: 160px;
+			min-width: 360px;
+		}
+
+		.code-output {
+			height: 200px;
+			width: 100%;
+		}
+
+		.note {
+			color: #666666;
+			font-size: .9em;
+			line-height: 1.4em;
+			margin: 3px 0;
+		}
+
+		.file-input-entry {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+		}
+
+		button,
+		input[type="file"] {
+			background: #00CB99;
+			border-radius: 3px;
+			border: none;
+			color: #fff;
+			font-size: .9em;
+			font-weight: bold;
+			margin: 10px 0;
+			padding: 4px 8px;
+		}
+
+		input[type="file"] {
+			font-size: 1.0em;
+			padding: 6px 20px;
+		}
+
+		.generate-button {
+			margin: 40px 0 20px;
+		}
+
+		.remove-button {
+			margin: 0 0 0 10px;
+			padding: 1px 4px;
+		}
+
+		.file-info {
+			color: #505050;
+			font-size: .7em;
+			margin-left: 20px;
+			max-width: 300px;
+			white-space: pre;
+		}
+
+		.size-input{
+			width: 45px;
+		}
+
+		.glyph-input {
+			width: 85px;
+			margin-left: 10px;
+			padding-left: 5px;
+		}
+
+		#image-size-settings {
+			list-style-type: none;
+		}
+
+		#image-size-settings li {
+			margin: 4px 0;
+		}
+
+		#images-canvas-container canvas {
+			border: 1px solid red;
+			margin: 10px 15px;
+		}
+
+		#images-canvas-container {
+			align-items: flex-start;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		#arduino-identifier,
+		#adafruit-gfx-settings,
+		#all-same-size {
+			display: none;
+		}
+
+		.msg {
+			font-size: 1.2em;
+		}
+
+		.error-msg {
+			color: #ff0000;
+			display: none;
+		}
+
+		h1{
+			padding: 10px;
+			color: white;
+			background-color: #00cb99;
+		}
+	</style>
+</head>
+<body>
 	<div class="wrapper">
 		<section class="section">
-			
+			<h1>image2cpp</h1>
 		</section>
 
 
@@ -27,7 +240,7 @@
 			<section class="sub-section">
 				<div class="column" id="file-input-column">
 					<h2 class="sub-section-title">1. Select image</h2>
-					<input type="file" id="file-input" name="file-input" multiple=""><br>
+					<input type="file" id="file-input" name="file-input" multiple/><br />
 				</div>
 		<!-- 
 				<div class="column column-center">
@@ -74,9 +287,9 @@
 					<div class="table-row">
 						<div class="table-cell"><label>Background color:</label></div>
 						<div class="table-cell">
-							<input id="backgroundColorWhite" type="radio" name="backgroundColor" value="white" checked="checked" onchange="updateRadio('backgroundColor')">
+							<input id="backgroundColorWhite" type="radio" name="backgroundColor" value="white" checked="checked" onchange="updateRadio('backgroundColor')"/>
 							<label for="backgroundColorWhite" class="smallLabel">White</label>
-							<input id="backgroundColorBlack" type="radio" name="backgroundColor" value="black" onchange="updateRadio('backgroundColor')">
+							<input id="backgroundColorBlack" type="radio" name="backgroundColor" value="black" onchange="updateRadio('backgroundColor')"/>
 							<label for="backgroundColorBlack" class="smallLabel">Black</label>
 						</div>
 					</div>
@@ -84,7 +297,7 @@
 					<div class="table-row">
 						<div class="table-cell"><label for="invertColors">Invert image colors</label></div>
 						<div class="table-cell">
-							<input id="invertColors" type="checkbox" onchange="updateBoolean('invertColors')">
+							<input id="invertColors" type="checkbox" onchange="updateBoolean('invertColors')" />
 						</div>
 					</div>
 
@@ -104,9 +317,9 @@
 					<div class="table-row">
 						<div class="table-cell"><label>Center:</label></div>
 						<div class="table-cell">
-							<input id="centerHorizontally" type="checkbox" onchange="updateBoolean('centerHorizontally')">
+							<input id="centerHorizontally" type="checkbox" onchange="updateBoolean('centerHorizontally')" />
 							<label for="centerHorizontally">horizontally</label>
-							<input id="centerVertically" type="checkbox" onchange="updateBoolean('centerVertically')">
+							<input id="centerVertically" type="checkbox" onchange="updateBoolean('centerVertically')" />
 							<label for="centerVertically">vertically</label>
 						</div>
 					</div>
@@ -114,7 +327,7 @@
 					<div class="table-row">
 						<div class="table-cell"><label for="invertColors">Rotate image:</label></div>
 						<div class="table-cell">
-							<input id="rotate180" type="checkbox" onchange="updateBoolean('rotate180')">
+							<input id="rotate180" type="checkbox" onchange="updateBoolean('rotate180')" />
 							<label for="rotate180">rotate 180 degrees</label>
 						</div>
 					</div>
@@ -122,9 +335,9 @@
 					<div class="table-row">
 						<div class="table-cell"><label>Flip:</label></div>
 						<div class="table-cell">
-							<input id="flipHorizontally" type="checkbox" onchange="updateBoolean('flipHorizontally')">
+							<input id="flipHorizontally" type="checkbox" onchange="updateBoolean('flipHorizontally')" />
 							<label for="flipHorizontally">horizontally</label>
-							<input id="flipVertically" type="checkbox" onchange="updateBoolean('flipVertically')">
+							<input id="flipVertically" type="checkbox" onchange="updateBoolean('flipVertically')" />
 							<label for="flipVertically">vertically</label>
 						</div>
 					</div>
@@ -162,7 +375,7 @@
 								<div data-caption="adafruit_gfx">
 									Creates a <code>GFXbitmapFont</code> formatted ouput. Used by a modified version of the Adafruit GFX library.
 									GitHub project and example <a href="https://github.com/wiredolphin/Adafruit-GFX-Library/tree/bitmap-font" target="_blank">here</a>.
-									<br>
+									<br />
 									<i>First ASCII character</i> value is used only if a glyph identifier of length equal to 1 is not provided for each image. The value itself will be incremented by 1 for each glyph.
 								</div>
 							</div>
@@ -171,13 +384,13 @@
 									<div class="table-row">
 										<div class="table-cell"><label>First ASCII character (dec):</label></div>
 										<div class="table-cell">
-											<input id="first-ascii-char" class="text-input" type="text" name="first-ascii-char" onchange="" value="48">
+											<input id="first-ascii-char" class="text-input" type="text" name="first-ascii-char" onchange="" value="48"/>
 										</div>
 									</div>
 									<div class="table-row">
 										<div class="table-cell"><label>x advance:</label></div>
 										<div class="table-cell">
-											<input id="x-advance" class="text-input" type="text" name="x-advance" onchange="" value="0">
+											<input id="x-advance" class="text-input" type="text" name="x-advance" onchange="" value="0"/>
 										</div>
 									</div>
 								</div>
@@ -185,7 +398,7 @@
 									<div class="table-row">
 										<div class="table-cell"><label>Identifier/Prefix:</label></div>
 										<div class="table-cell">
-											<input id="identifier" class="text-input" type="text" name="identifier" onchange="" value="">
+											<input id="identifier" class="text-input" type="text" name="identifier" onchange="" value=""/>
 										</div>
 									</div>
 								</div>
@@ -211,8 +424,8 @@
 					<div class="note">
 						<i>If your image looks all messed up on your display, like the image below, try using a different mode.</i>
 					</div>
-					<img class="inlineImg" src="gambar.jpg" width="150" height="64" alt="">
-					
+					<img class="inlineImg" src=gambar.jpg width="150" height="64" alt="" >
+					</img>
 				</div>
 			</section>
 
